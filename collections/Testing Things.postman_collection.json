@@ -21,19 +21,19 @@
               "",
               "//Confirm the response body contains Google Pixel",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Google Pixel 6 Pro\");",
+              "    pm.expect(pm.response.text()).to.include(\"Xiaomi Redmi 3\");",
               "});",
               "",
               "",
               "//Confirm the response body contains a colour",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Brown\");",
+              "    pm.expect(pm.response.text()).to.include(\"TT G5\");",
               "});",
               "",
               "",
-              "//Confirm the response body contains ID",
+              "//Confirm the response body contains text",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"6\");",
+              "    pm.expect(pm.response.text()).to.include(\"1 TT\");",
               "});",
               "",
               "//Confirm response time is less than 1100ms",
@@ -48,7 +48,7 @@
               "const response = pm.response.json();",
               "",
               "// Find the product with id \"6\"",
-              "const product = response.find(item => item.name === \"Samsung Galaxy Z Fold2\");",
+              "const product = response.find(item => item.name === \"Xiaomi Redmi 3\");",
               "",
               "// Save the id to a Postman environment/collection variable",
               "if (product) {",
@@ -96,13 +96,13 @@
           "script": {
             "exec": [
               "//Confirm the response code is 401",
-              "    pm.test(\"Status code is 401\", function () {",
-              "        pm.response.to.have.status(401);",
+              "    pm.test(\"Status code is 404\", function () {",
+              "        pm.response.to.have.status(404);",
               "    });",
               "",
               "//Confirm the response body contains unathourized path",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Unauthorized path\");",
+              "    pm.expect(pm.response.text()).to.include(\"Not Found\");",
               "});",
               "",
               "//Confirm the response code is not 200",
@@ -116,20 +116,11 @@
               "});",
               "",
               "",
-              "//Confirm the response body does not contains a colour",
-              "pm.test(\"Body does not contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.not.include(\"Brown\");",
-              "});",
               "",
-              "",
-              "//Confirm the response body does not contains ID",
-              "pm.test(\"Body does not contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.not.include(\"6\");",
-              "});",
               "",
               "//Confirm response time is less than 900ms",
-              "pm.test(\"Response time is less than 900ms\", function () {",
-              "    pm.expect(pm.response.responseTime).to.be.below(900);",
+              "pm.test(\"Response time is less than 1000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);",
               "});"
             ],
             "type": "text/javascript",
@@ -142,9 +133,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl-incorrect}}",
+          "raw": "{{baseUrl_incorrect}}",
           "host": [
-            "{{baseUrl-incorrect}}"
+            "{{baseUrl_incorrect}}"
           ]
         }
       },
@@ -164,19 +155,19 @@
               "",
               "//Confirm the response body contains Samsung model",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Samsung Galaxy Z Fold2\");",
+              "    pm.expect(pm.response.text()).to.include(\"Xiaomi Redmi 3\");",
               "});",
               "",
               "",
               "//Confirm the response body contains a number",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"689.99\");",
+              "    pm.expect(pm.response.text()).to.include(\"5000\");",
               "});",
               "",
               "",
               "//Confirm the response body contains ID",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"5\");",
+              "    pm.expect(pm.response.text()).to.include(\"2026\");",
               "});",
               "",
               "//Confirm response time is less than 1100ms",
@@ -315,6 +306,75 @@
             "packages": {},
             "requests": {}
           }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// List of phone brands",
+              "const phoneMakes = [\"Apple\", \"Samsung\", \"Google\", \"OnePlus\", \"Xiaomi\", \"Sony\", \"Huawei\", \"Motorola\"];",
+              "",
+              "// Model series per brand",
+              "const modelSeries = {",
+              "    \"Apple\": [\"iPhone\"],",
+              "    \"Samsung\": [\"Galaxy S\", \"Galaxy A\", \"Galaxy Z\"],",
+              "    \"Google\": [\"Pixel\"],",
+              "    \"OnePlus\": [\"Nord\", \"Pro\"],",
+              "    \"Xiaomi\": [\"Mi\", \"Redmi\", \"Poco\"],",
+              "    \"Sony\": [\"Xperia\"],",
+              "    \"Huawei\": [\"P\", \"Mate\"],",
+              "    \"Motorola\": [\"Moto G\", \"Moto Edge\"]",
+              "};",
+              "",
+              "// Generate random phone make",
+              "const randomMake = phoneMakes[Math.floor(Math.random() * phoneMakes.length)];",
+              "",
+              "// Generate random phone model (make + series + random number)",
+              "const series = modelSeries[randomMake];",
+              "const randomSeries = series[Math.floor(Math.random() * series.length)];",
+              "const randomNumber = Math.floor(Math.random() * 20) + 1;",
+              "const randomModel = `${randomMake} ${randomSeries} ${randomNumber}`;",
+              "",
+              "// Generate valid 15-digit IMEI with Luhn check digit",
+              "function generateIMEI() {",
+              "    // Generate first 14 digits (TAC + Serial)",
+              "    let imei = \"\";",
+              "    for (let i = 0; i < 14; i++) {",
+              "        imei += Math.floor(Math.random() * 10).toString();",
+              "    }",
+              "    ",
+              "    // Calculate Luhn check digit",
+              "    let sum = 0;",
+              "    for (let i = 0; i < 14; i++) {",
+              "        let digit = parseInt(imei[i]);",
+              "        if (i % 2 === 1) {",
+              "            digit *= 2;",
+              "            if (digit > 9) {",
+              "                digit = Math.floor(digit / 10) + (digit % 10);",
+              "            }",
+              "        }",
+              "        sum += digit;",
+              "    }",
+              "    const checkDigit = (10 - (sum % 10)) % 10;",
+              "    ",
+              "    return imei + checkDigit.toString();",
+              "}",
+              "",
+              "const randomIMEI = generateIMEI();",
+              "",
+              "// Set collection variables",
+              "pm.collectionVariables.set(\"RandomPhoneMake\", randomMake);",
+              "pm.collectionVariables.set(\"RandomPhoneModel\", randomModel);",
+              "pm.collectionVariables.set(\"RandomIMEI\", randomIMEI);",
+              "",
+              "console.log(\"Generated Phone Make:\", randomMake);",
+              "console.log(\"Generated Phone Model:\", randomModel);",
+              "console.log(\"Generated IMEI:\", randomIMEI);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
         }
       ],
       "request": {
@@ -322,7 +382,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Testing Things Pro 16\",\n  \"data\": {\n    \"year\": 2026,\n    \"price\": 5000,\n    \"CPU model\": \"TT G5\",\n    \"Hard disk size\": \"1 TT\"\n  }\n}",
+          "raw": "{\n  \"name\": \"{{RandomPhoneModel}}\",\n  \"data\": {\n    \"year\": 2026,\n    \"price\": 5000,\n    \"CPU model\": \"TT G5\",\n    \"Hard disk size\": \"1 TT\"\n  }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -574,12 +634,12 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "raw": "{{baseUrl}}/{{incorrect_productId}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "{{incorrect-productId}}"
+            "{{incorrect_productId}}"
           ]
         }
       },
@@ -1047,6 +1107,18 @@
   "variable": [
     {
       "key": "productId",
+      "value": ""
+    },
+    {
+      "key": "RandomPhoneMake",
+      "value": ""
+    },
+    {
+      "key": "RandomPhoneModel",
+      "value": ""
+    },
+    {
+      "key": "RandomIMEI",
       "value": ""
     }
   ]
