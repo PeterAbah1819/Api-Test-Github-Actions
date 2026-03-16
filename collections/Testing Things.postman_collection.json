@@ -1,0 +1,1053 @@
+{
+  "info": {
+    "_postman_id": "e1f6cf46-02b0-4e21-a531-2bf4eb07920d",
+    "name": "Testing Things",
+    "description": "This collection is a collection of endpoints to test things and monitor how testing things in the github actions CI?CD pipeline would work based on the the things being tested... Things.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14938073"
+  },
+  "item": [
+    {
+      "name": "List all products - Correct URL",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Google Pixel 6 Pro\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Brown\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains ID",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"6\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1100);",
+              "});",
+              "",
+              "",
+              "",
+              "//Save the product ID for ID 6 in the collection variable to make it reusable in the next request",
+              "// Parse the response body",
+              "const response = pm.response.json();",
+              "",
+              "// Find the product with id \"6\"",
+              "const product = response.find(item => item.name === \"Samsung Galaxy Z Fold2\");",
+              "",
+              "// Save the id to a Postman environment/collection variable",
+              "if (product) {",
+              "    pm.environment.set(\"productId\", product.id);",
+              "    console.log(\"Saved product ID:\", product.id);",
+              "} else {",
+              "    console.log(\"Product with id 6 not found\");",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List all products - Incorrect URL",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 401",
+              "    pm.test(\"Status code is 401\", function () {",
+              "        pm.response.to.have.status(401);",
+              "    });",
+              "",
+              "//Confirm the response body contains unathourized path",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Unauthorized path\");",
+              "});",
+              "",
+              "//Confirm the response code is not 200",
+              "    pm.test(\"Status code is not 200\", function () {",
+              "        pm.response.to.not.have.status(200);",
+              "    });",
+              "",
+              "    //Confirm the response body does not contains Google Pixel",
+              "pm.test(\"Body does not contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.not.include(\"Google Pixel 6 Pro\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body does not contains a colour",
+              "pm.test(\"Body does not contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.not.include(\"Brown\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body does not contains ID",
+              "pm.test(\"Body does not contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.not.include(\"6\");",
+              "});",
+              "",
+              "//Confirm response time is less than 900ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(900);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl-incorrect}}",
+          "host": [
+            "{{baseUrl-incorrect}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List a single product - Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains Samsung model",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Samsung Galaxy Z Fold2\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a number",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"689.99\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains ID",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"5\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1100);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List a single product - Incorrect ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 401",
+              "    pm.test(\"Status code is 404\", function () {",
+              "        pm.response.to.have.status(404);",
+              "    });",
+              "",
+              "//Confirm the response body contain Object with id=66 was not found.",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Object with id=66 was not found.\");",
+              "});",
+              "",
+              "//Confirm the response code is not 200",
+              "    pm.test(\"Status code is not 200\", function () {",
+              "        pm.response.to.not.have.status(200);",
+              "    });",
+              "",
+              "    //Confirm the response body does not contain Google Pixel",
+              "pm.test(\"Body does not contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.not.include(\"Google Pixel 6 Pro\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body does not contain a colour",
+              "pm.test(\"Body does not contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.not.include(\"Brown\");",
+              "});",
+              "",
+              "",
+              "//Confirm response time is less than 900ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(900);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{incorrect-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create new product - Correct payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Save the ID in the environment variable and call it in a get request",
+              "const json = pm.response.json();",
+              "pm.environment.set(\"New-productId\", json.id);",
+              "",
+              "",
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains new name",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro 16\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a number",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"5000\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"TT G5\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1100);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Pro 16\",\n  \"data\": {\n    \"year\": 2026,\n    \"price\": 5000,\n    \"CPU model\": \"TT G5\",\n    \"Hard disk size\": \"1 TT\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create new product - Incomplete payload",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "",
+              "//Confirm the response code is 400",
+              "    pm.test(\"Status code is 400\", function () {",
+              "        pm.response.to.have.status(400);",
+              "    });",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Bad Request\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"If you are trying to create or update the data, potential issue is that you are sending incorrect body json or it is missing at all.\");",
+              "});",
+              "",
+              "",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1100);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Pro 16\",\n  \"data\": {\n    \"year\": 2026,\n    \"price\": 5000,\n    \"CPU model\": \"TT G5\",\n    //\"Hard disk size\": \"1 TT\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}",
+          "host": [
+            "{{baseUrl}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List a single new created product - New ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro 16\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"5000\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"TT G5\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1100);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{New-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{New-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit the newly created product fully- Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Save the ID in the environment variable and call it in a get request",
+              "const json = pm.response.json();",
+              "pm.environment.set(\"Edited-fully-productId\", json.id);",
+              "",
+              "",
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro Seed\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a number",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"6050\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"TT G10\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Pro Seed\",\n  \"data\": {\n    \"year\": 2027,\n    \"price\": 6050,\n    \"CPU model\": \"TT G10\",\n    \"Hard disk size\": \"1 TT\",\n    \"color\": \"TT Blue\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{New-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{New-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit the newly created product fully- Incorrect ID Copy",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"The Object with id = 66 doesn't exist\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Please provide an object id which exists or generate a new Object using POST request and capture the id of it to use it as part of PUT request after that.\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Pro Seed\",\n  \"data\": {\n    \"year\": 2027,\n    \"price\": 6050,\n    \"CPU model\": \"TT G10\",\n    \"Hard disk size\": \"1 TT\",\n    \"color\": \"TT Blue\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{incorrect-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Edited fully created product - Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro Seed\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"6050\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains ID",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"TT G10\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{Edited-fully-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{Edited-fully-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit the newly created product partially- Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Save the ID in the environment variable and call it in a get request",
+              "const json = pm.response.json();",
+              "pm.environment.set(\"Edited-partially-productId\", json.id);",
+              "",
+              "",
+              "//Confirm the response code is 200",
+              "    pm.test(\"Status code is 200\", function () {",
+              "        pm.response.to.have.status(200);",
+              "    });",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Edited Again\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(900);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Edited Again\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{New-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{New-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Edit the newly created product partially- Incorrect ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "//Confirm the response body contains Google Pixel",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"The Object with id = 66 doesn't exist\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Please provide an object id which exists or generate a new Object using POST request and capture the id of it to use it as part of PATCH request after that.\");",
+              "});",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Testing Things Edited Again\",\n  \"year\": 3030\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{incorrect-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List edited partially product - Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Testing Things Edited Again\");",
+              "});",
+              "",
+              "",
+              "//Confirm the response body contains a colour",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"2027\");",
+              "});",
+              "",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{Edited-fully-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{Edited-fully-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete created/edited product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\" has been deleted.\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 1000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{Edited-partially-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{Edited-partially-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete created/edited product - Incorrect ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"bject with id = 66 doesn't exist.\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 1000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{incorrect-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete created/edited product - Already deleted ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\" doesn't exist.\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 1000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{Edited-partially-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{Edited-partially-productId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List  deleted product - Correct ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Confirm the response code is 200",
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "//Confirm the response body contains text",
+              "pm.test(\"Body contains string\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\" was not found.\");",
+              "});",
+              "",
+              "",
+              "",
+              "//Confirm response time is less than 1100ms",
+              "pm.test(\"Response time is less than 900ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{baseUrl}}/{{Edited-fully-productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "{{Edited-fully-productId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "eaac991f-fcdc-4260-9321-dc4fdf05c06b",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "productId",
+      "value": ""
+    }
+  ]
+}
