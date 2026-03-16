@@ -1,0 +1,43 @@
+name: Testing Things API test suite
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - run: npm install
+
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Run API tests
+      run: 
+        newman run collections/Testing\ Things.postman_collection.json \
+        --environment environments/Testing\ Things.postman_environment.json \
+        --reporters cli,json,html \
+        --reporter-json-export reports/Testing-Things-test-results.json \
+        --reporter-html-export reports/Testing-Things-test-results.html
+        --timeout-request 30000
+
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: Testing-Things-test-results
+        path: reports/
+
+    
