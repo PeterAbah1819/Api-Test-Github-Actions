@@ -30,7 +30,7 @@ jobs:
       run: |
         newman run "collections/Testing Things.postman_collection.json" \
         --environment "environments/Testing Things.postman_environment.json" \
-        --env-var "baseUrl=${{ secrets.BASEURL }}" \
+        --env-var "baseurl=${{ secrets.BASEURL }}" \
         --env-var "baseurl_incorrect=${{ secrets.BASEURL_INCORRECT }}" \
         --env-var "incorrect_productId=${{ secrets.INCORRECT_PRODUCTID }}" \
         -r cli,htmlextra \

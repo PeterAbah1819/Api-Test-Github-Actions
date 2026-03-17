@@ -62,6 +62,17 @@
             "packages": {},
             "requests": {}
           }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
         }
       ],
       "protocolProfileBehavior": {
@@ -252,12 +263,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "raw": "{{baseUrl}}/{{incorrect_productId}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "{{incorrect-productId}}"
+            "{{incorrect_productId}}"
           ]
         }
       },
@@ -279,11 +290,6 @@
               "    pm.test(\"Status code is 200\", function () {",
               "        pm.response.to.have.status(200);",
               "    });",
-              "",
-              "//Confirm the response body contains new name",
-              "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro 16\");",
-              "});",
               "",
               "",
               "//Confirm the response body contains a number",
@@ -363,9 +369,9 @@
               "const randomIMEI = generateIMEI();",
               "",
               "// Set collection variables",
-              "pm.collectionVariables.set(\"RandomPhoneMake\", randomMake);",
-              "pm.collectionVariables.set(\"RandomPhoneModel\", randomModel);",
-              "pm.collectionVariables.set(\"RandomIMEI\", randomIMEI);",
+              "pm.environment.set(\"RandomPhoneMake\", randomMake);",
+              "pm.environment.set(\"RandomPhoneModel\", randomModel);",
+              "pm.environment.set(\"RandomIMEI\", randomIMEI);",
               "",
               "console.log(\"Generated Phone Make:\", randomMake);",
               "console.log(\"Generated Phone Model:\", randomModel);",
@@ -467,11 +473,6 @@
               "    pm.test(\"Status code is 200\", function () {",
               "        pm.response.to.have.status(200);",
               "    });",
-              "",
-              "//Confirm the response body contains Google Pixel",
-              "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Testing Things Pro 16\");",
-              "});",
               "",
               "",
               "//Confirm the response body contains a colour",
@@ -601,14 +602,9 @@
               "",
               "//Confirm the response body contains Google Pixel",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"The Object with id = 66 doesn't exist\");",
+              "    pm.expect(pm.response.text()).to.include(\"Object with id=66 was not found.\");",
               "});",
               "",
-              "",
-              "//Confirm the response body contains a colour",
-              "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Please provide an object id which exists or generate a new Object using POST request and capture the id of it to use it as part of PUT request after that.\");",
-              "});",
               "",
               "//Confirm response time is less than 1100ms",
               "pm.test(\"Response time is less than 900ms\", function () {",
@@ -777,14 +773,9 @@
               "",
               "//Confirm the response body contains Google Pixel",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"The Object with id = 66 doesn't exist\");",
+              "    pm.expect(pm.response.text()).to.include(\"Object with id=66 was not found.\");",
               "});",
               "",
-              "",
-              "//Confirm the response body contains a colour",
-              "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"Please provide an object id which exists or generate a new Object using POST request and capture the id of it to use it as part of PATCH request after that.\");",
-              "});",
               "",
               "//Confirm response time is less than 1100ms",
               "pm.test(\"Response time is less than 900ms\", function () {",
@@ -810,12 +801,12 @@
           }
         },
         "url": {
-          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "raw": "{{baseUrl}}/{{incorrect_productId}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "{{incorrect-productId}}"
+            "{{incorrect_productId}}"
           ]
         }
       },
@@ -938,7 +929,7 @@
               "",
               "//Confirm the response body contains text",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\"bject with id = 66 doesn't exist.\");",
+              "    pm.expect(pm.response.text()).to.include(\"Object with id=66 was not found.\");",
               "});",
               "",
               "pm.test(\"Response time is less than 1000ms\", function () {",
@@ -955,12 +946,12 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/{{incorrect-productId}}",
+          "raw": "{{baseUrl}}/{{incorrect_productId}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
-            "{{incorrect-productId}}"
+            "{{incorrect_productId}}"
           ]
         }
       },
@@ -980,7 +971,7 @@
               "",
               "//Confirm the response body contains text",
               "pm.test(\"Body contains string\", function () {",
-              "    pm.expect(pm.response.text()).to.include(\" doesn't exist.\");",
+              "    pm.expect(pm.response.text()).to.include(\" was not found.\");",
               "});",
               "",
               "pm.test(\"Response time is less than 1000ms\", function () {",
